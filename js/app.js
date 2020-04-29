@@ -2,10 +2,9 @@
  * Project 4 - OOP Game App
  * app.js */
 
+ const qwerty = document.querySelector('#qwerty');
+ const keyList = qwerty.querySelectorAll('.key');
  const game = new Game();
-
- //addEventListener('click'
- //addEventListener('click'
 
  /**
   * A click event listener to the "Start Game" button
@@ -13,6 +12,7 @@
   * calling the startGame() method.
   */
  document.getElementById('btn__reset').addEventListener('click', function(){
+
     // Start the Game: Create a new instance of the Game class
     game.startGame();
  });
@@ -23,8 +23,27 @@
 * having to add an event listener to each individual keyboard button. Clicking the space between and
 * round the onscreen keyboard buttons should not result in the handleInteraction() method being called.
 */
-document.querySelector('#qwerty').addEventListener('click', function(clickedElement) {
+qwerty.addEventListener('click', function(clickedElement) {
    if (clickedElement.target.className === 'key') {
      game.handleInteraction(clickedElement.target);
    }
 });
+
+// Let players use their physical computer keyboard to enter guesses when the game is active:
+  document.addEventListener('keyup', (e) => {
+    // If the gameActivity true( false = gameOver or bevor startbutton is clicked)
+    if(game.gameActivity) {
+      keyList.forEach(element => {
+        if (element.textContent == e.key && !element.disabled) {
+            game.handleInteraction(element);
+            return false;
+        }
+      });
+    } else {
+      // if space or enter is pressed, start the Game
+      if (e.key === ' ' || e.keyCode === 13) {
+        // Start the Game: Create a new instance of the Game class
+        game.startGame();
+      }
+    }
+  });

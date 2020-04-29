@@ -6,6 +6,8 @@ class Game {
     this.missed = 0;
     this.phrases = this.createPhrases();
     this.activePhrase = null;
+    this.gameActivity = false;
+    this.gameTries = 0;
   }
 
   /**
@@ -29,13 +31,16 @@ createPhrases() {
   * It also adds that phrase to the board by calling the addPhraseToDisplay() method on the active Phrase object.
   */
   startGame() {
+    // Set the gameActivity to true
+    this.gameActivity = true;
+
     // Hide the Start Overlay with the Start-Game Button:
     const startOverlay = document.getElementById('overlay');
     startOverlay.style.display = 'none';
 
     // call the getRandomPhrase() method and set the activePhrase property with the chosen phrase
       this.activePhrase = this.getRandomPhrase(this.phrases.length);
-      console.log(this.activePhrase);
+      //console.log(this.activePhrase);
       this.activePhrase.addPhraseToDisplay();
   }
 
@@ -61,7 +66,7 @@ createPhrases() {
   handleInteraction(clickedKey) {
     const actualPhrase = this.activePhrase;
     const clickedLetter = clickedKey.textContent;
-
+    //console.log(clickedKey);
     // Disable the selected letter’s onscreen keyboard button.
     clickedKey.setAttribute('disabled', true);
 
@@ -75,6 +80,10 @@ createPhrases() {
       clickedKey.classList.add('wrong');
       this.removeLife();
     }
+
+   clickedKey.classList.add('animated');
+    clickedKey.classList.add('pulse');
+
   }
 
 /**
@@ -86,9 +95,10 @@ createPhrases() {
     const heartList = document.getElementById('scoreboard').querySelectorAll('img');
     //console.log('heartList[0].src: ' + heartList[0].src);
     heartList[this.missed].src = 'images/lostHeart.png';
+    heartList[this.missed].className = 'animated wobble';
     this.missed += 1;
     if (this.missed === 5) {
-      console.log(this.missed + ' missed, go to gameOver');
+      //console.log(this.missed + ' missed, go to gameOver');
       this.gameOver();
     }
   }
@@ -113,7 +123,10 @@ createPhrases() {
 * @param   {Boolean} Player has won or has lost
 */
   gameOver(winOrLoose) {
-    console.log("gmae over");
+    // Set the gameActivity to false
+    this.gameActivity = false;
+
+    //console.log("gmae over");
     const startOverlay = document.getElementById('overlay');
     const gameOverMessageElement = document.getElementById('game-over-message');
     startOverlay.style.display = 'flex';
@@ -121,6 +134,8 @@ createPhrases() {
     let gameOverMessage = 'loose!!';
     if(winOrLoose === 'win') gameOverMessage = "chacka!!"
     gameOverMessageElement.innerHTML = gameOverMessage;
+
+    this.gameTries += 1;
     this.resetGame();
   }
 
@@ -133,18 +148,19 @@ createPhrases() {
 * Reset all of the heart images in the scoreboard at the bottom of the gameboard to display the liveHeart.png image.
 */
   resetGame() {
-
     // reset KeyButtons
     const keyButtonList = document.getElementById("qwerty").querySelectorAll('.key');
     keyButtonList.forEach(element => {
-      element.classList.remove("wrong");
-      element.classList.remove("chosen");
+      element.className = "key";
       element.disabled = false;
     });
 
+    // blank
+    document.getElementById('btn__reset').innerHTML = 'Start Game Again the ' + this.gameTries + '. Time';
+
     // Delete played List
     const element = document.getElementById("phrase").querySelector('ul');
-    console.log("Delete played List:" + element);
+    //console.log("Delete played List:" + element);
     while (element.firstChild) {
       element.removeChild(element.firstChild);
     }
@@ -154,6 +170,8 @@ createPhrases() {
     this.missed = 0;
     heartList.forEach(element => {
       element.src = 'images/liveHeart.png';
+      element.classList.remove('animated');
+      element.classList.remove('wobble');
     });
   }
 }

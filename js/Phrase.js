@@ -35,10 +35,10 @@ class Phrase {
  * @return  {Boolean} Returns true or false depending on a match
  */
  checkLetter(clickedLetter) {
-    console.log('clickedLetter: ' + clickedLetter);
+    //console.log('clickedLetter: ' + clickedLetter);
     let letterMatchesPhrase = false;
 
-    console.log(this.phrase);
+    //console.log(this.phrase);
     const phraseCharArray = this.phrase.split('');
     phraseCharArray.forEach(element => {
       //console.log('element: ' + element);
@@ -58,13 +58,16 @@ class Phrase {
 * @param {Element} letterToShow - The letter to reveal
 */
  showMatchedLetter(letterToShow) {
-   console.log("letterToShow: " + letterToShow);
+   //console.log("letterToShow: " + letterToShow);
    const letterElementList = document.getElementById('phrase').querySelectorAll('.hide');
    letterElementList.forEach(element => {
      //console.log(element.textContent);
      if (element.textContent === letterToShow) {
        element.classList.remove('hide');
        element.classList.add('show');
+
+       element.classList.add('animated');
+       element.classList.add('pulse');
      }
    });
  }
