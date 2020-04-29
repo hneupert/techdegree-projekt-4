@@ -22,8 +22,13 @@ createPhrases() {
       return phrases;
   }
 
+  /*
+  * hides the start screen overlay,
+  * calls the getRandomPhrase() method,
+  * sets the activePhrase property with the chosen phrase.
+  * It also adds that phrase to the board by calling the addPhraseToDisplay() method on the active Phrase object.
+  */
   startGame() {
-
     // Hide the Start Overlay with the Start-Game Button:
     const startOverlay = document.getElementById('overlay');
     startOverlay.style.display = 'none';
@@ -39,19 +44,20 @@ createPhrases() {
   * @param   {number} Quantity of Phrases
   * @return  {object} Phrase
   */
-  getRandomPhrase(phraselength) {
-    const randomNumber = Math.floor(Math.random() * phraselength);
+  getRandomPhrase(phrasesLength) {
+    const randomNumber = Math.floor(Math.random() * phrasesLength);
     return this.phrases[randomNumber];
   }
 
-/*
-* Disable the selected letter’s onscreen keyboard button.
-* If the phrase does not include the guessed letter, add the wrong CSS class to the selected letter's keyboard button and
-* call the removeLife() method.
-* If the phrase includes the guessed letter, add the chosen CSS class to the selected letter's keyboard button,
-* call the showMatchedLetter() method on the phrase, and then call the checkForWin() method.
-* If the player has won the game, also call the gameOver() method.
-*/
+  /**
+   * Disable the selected letter’s onscreen keyboard button.
+   * If the phrase does not include the guessed letter, add the wrong CSS class to the selected letter's keyboard button and
+   * call the removeLife() method.
+   * If the phrase includes the guessed letter, add the chosen CSS class to the selected letter's keyboard button,
+   * call the showMatchedLetter() method on the phrase, and then call the checkForWin() method.
+   * If the player has won the game, also call the gameOver() method.
+   * @param   {object} The clicked Key on the keyboard
+  */
   handleInteraction(clickedKey) {
     const actualPhrase = this.activePhrase;
     const clickedLetter = clickedKey.textContent;
@@ -69,12 +75,16 @@ createPhrases() {
       clickedKey.classList.add('wrong');
       this.removeLife();
     }
-
   }
 
+/**
+* Removes a life from the scoreboard, by replacing one of the mages and increments the missed property.
+* If the player has five missed guesses, then end the game by calling the gameOver() method.
+*
+*/
   removeLife() {
     const heartList = document.getElementById('scoreboard').querySelectorAll('img');
-    console.log('heartList[0].src: ' + heartList[0].src);
+    //console.log('heartList[0].src: ' + heartList[0].src);
     heartList[this.missed].src = 'images/lostHeart.png';
     this.missed += 1;
     if (this.missed === 5) {
@@ -83,16 +93,25 @@ createPhrases() {
     }
   }
 
+/**
+* this method checks to see if the player has revealed all of the letters in the active phrase.
+* @return  {Boolean} if Player has won or not
+*/
   checkForWin() {
     let playerHasWon = false;
     const hideLetters = document.querySelectorAll('.hide');
     if (hideLetters.length === 0) {
       playerHasWon = true;
     }
-
     return playerHasWon;
   }
 
+/**
+* displays the original start screen overlay, updates the overlay h1 element with a friendly win or loss message,
+* and replaces the overlay’s start CSS class with either the win or lose CSS class.
+* Then reset Game
+* @param   {Boolean} Player has won or has lost
+*/
   gameOver(winOrLoose) {
     console.log("gmae over");
     const startOverlay = document.getElementById('overlay');
@@ -101,12 +120,18 @@ createPhrases() {
 
     let gameOverMessage = 'loose!!';
     if(winOrLoose === 'win') gameOverMessage = "chacka!!"
-
     gameOverMessageElement.innerHTML = gameOverMessage;
-
     this.resetGame();
   }
 
+/**
+* Resetting the gameboard between games.
+* So that clicking the "Start Game" button will successfully load a new game.
+* Remove all li elements from the Phrase ul element.
+* Enable all of the onscreen keyboard buttons
+* and update each to use the key CSS class, and not use the chosen or wrong CSS classes.
+* Reset all of the heart images in the scoreboard at the bottom of the gameboard to display the liveHeart.png image.
+*/
   resetGame() {
 
     // reset KeyButtons
@@ -121,7 +146,6 @@ createPhrases() {
     const element = document.getElementById("phrase").querySelector('ul');
     console.log("Delete played List:" + element);
     while (element.firstChild) {
-      console.log(element);
       element.removeChild(element.firstChild);
     }
 
@@ -131,6 +155,5 @@ createPhrases() {
     heartList.forEach(element => {
       element.src = 'images/liveHeart.png';
     });
-
   }
 }

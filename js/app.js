@@ -13,7 +13,7 @@
   * calling the startGame() method.
   */
  document.getElementById('btn__reset').addEventListener('click', function(){
-    // Start the Game:
+    // Start the Game: Create a new instance of the Game class
     game.startGame();
  });
 

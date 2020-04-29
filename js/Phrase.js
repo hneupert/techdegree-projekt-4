@@ -1,6 +1,8 @@
 /* Treehouse FSJS Techdegree
  * Project 4 - OOP Game App
- * Phrase.js */
+ * Phrase.js
+ */
+
 class Phrase {
  constructor(phrase) {
    this.phrase = phrase.toLowerCase();
@@ -8,8 +10,7 @@ class Phrase {
 
  /**
  *  this adds letter placeholders to the display when the game starts.
- * @param   {number} Quantity of Phrases
- * @return  {object} Phrase
+ *  CSS class for letters and the space CSS class for spaces
  */
  addPhraseToDisplay() {
    const stringLength = this.phrase.length;
@@ -17,7 +18,6 @@ class Phrase {
 
    for (let i = 0; i < stringLength; i++) {
      const listElement = document.createElement('li');
-
      listElement.textContent = this.phrase[i];
      if(this.phrase.charAt(i) === ' ') {
        listElement.className = 'space';
@@ -27,9 +27,13 @@ class Phrase {
      }
      PhraseContainer.appendChild(listElement);
    }
-
  }
 
+/**
+ * checks to see if the letter selected by the player matches a letter in the phrase.
+ * @param {Element} clickedLetter - The letter, selected by the player
+ * @return  {Boolean} Returns true or false depending on a match
+ */
  checkLetter(clickedLetter) {
     console.log('clickedLetter: ' + clickedLetter);
     let letterMatchesPhrase = false;
@@ -47,6 +51,12 @@ class Phrase {
    return letterMatchesPhrase;
  }
 
+/**
+* reveals the letter(s) on the board that matches the player's selection.
+* To reveal the matching letter(s), select all of the letter DOM elements that have a CSS class name that matches the selected letter
+* and replace each selected element's hide CSS class with the show CSS class.
+* @param {Element} letterToShow - The letter to reveal
+*/
  showMatchedLetter(letterToShow) {
    console.log("letterToShow: " + letterToShow);
    const letterElementList = document.getElementById('phrase').querySelectorAll('.hide');
