@@ -31,6 +31,8 @@ createPhrases() {
   * It also adds that phrase to the board by calling the addPhraseToDisplay() method on the active Phrase object.
   */
   startGame() {
+    this.resetGame();
+
     // Set the gameActivity to true
     this.gameActivity = true;
 
@@ -119,7 +121,7 @@ createPhrases() {
 /**
 * displays the original start screen overlay, updates the overlay h1 element with a friendly win or loss message,
 * and replaces the overlay’s start CSS class with either the win or lose CSS class.
-* Then reset Game
+* reset Game later when new Game starts because of lazy animated classes
 * @param   {Boolean} Player has won or has lost
 */
   gameOver(winOrLoose) {
@@ -136,7 +138,7 @@ createPhrases() {
     gameOverMessageElement.innerHTML = gameOverMessage;
 
     this.gameTries += 1;
-    this.resetGame();
+
   }
 
 /**
@@ -148,15 +150,8 @@ createPhrases() {
 * Reset all of the heart images in the scoreboard at the bottom of the gameboard to display the liveHeart.png image.
 */
   resetGame() {
-    // reset KeyButtons
-    const keyButtonList = document.getElementById("qwerty").querySelectorAll('.key');
-    keyButtonList.forEach(element => {
-      element.className = "key";
-      element.disabled = false;
-    });
-
-    // blank
-    document.getElementById('btn__reset').innerHTML = 'Start Game Again the ' + this.gameTries + '. Time';
+    // Change text with Number of Attemps
+    document.getElementById('btn__reset').innerHTML = 'Start Game Again the ' + (this.gameTries + 1) + '. Time';
 
     // Delete played List
     const element = document.getElementById("phrase").querySelector('ul');
@@ -172,6 +167,14 @@ createPhrases() {
       element.src = 'images/liveHeart.png';
       element.classList.remove('animated');
       element.classList.remove('wobble');
+    });
+
+    // reset KeyButtons
+    const keyButtonList = document.getElementById("qwerty").querySelectorAll('.key');
+    keyButtonList.forEach(element => {
+      console.log('element: ' + element);
+      element.className = "key";
+      element.disabled = false;
     });
   }
 }

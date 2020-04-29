@@ -30,7 +30,7 @@ qwerty.addEventListener('click', function(clickedElement) {
 });
 
 // Let players use their physical computer keyboard to enter guesses when the game is active:
-  document.addEventListener('keyup', (e) => {
+  document.addEventListener('keydown', (e) => {
     // If the gameActivity true( false = gameOver or bevor startbutton is clicked)
     if(game.gameActivity) {
       keyList.forEach(element => {
