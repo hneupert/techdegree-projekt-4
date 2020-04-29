@@ -10,3 +10,5 @@
 * The player keeps choosing letters until they reveal all the letters in the phrase, or they make five incorrect guesses.
 
 ### Step 1/9: Create the Phrase class in the Phrase.js file.
+* Create the Phrase class in the Phrase.js file.
+*
