@@ -172,7 +172,7 @@ createPhrases() {
     // reset KeyButtons
     const keyButtonList = document.getElementById("qwerty").querySelectorAll('.key');
     keyButtonList.forEach(element => {
-      console.log('element: ' + element);
+      //console.log('element: ' + element);
       element.className = "key";
       element.disabled = false;
     });
