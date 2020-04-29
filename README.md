@@ -9,7 +9,10 @@
 * If the selected letter is not in the phrase, one of the player's hearts in the scoreboard is changed from a "live" heart to a "lost" heart.
 * The player keeps choosing letters until they reveal all the letters in the phrase, or they make five incorrect guesses.
 
-### Step 1/9 from : Create the Phrase class in the Phrase.js file.
+### Steps:
+* Create the Phrase class, constructor and methods in the Phrase.js file.
+* Create the Game class, constructor and methods in the Games.js file.
+* Update the app.js file with key and click handlers to start game.
 
 ### Step Extra Credit
 * Let players use their physical computer keyboard to enter guesses.
